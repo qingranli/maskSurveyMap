@@ -14,6 +14,6 @@ The chance of someone you met in a random encounter wears mask is calculated by 
 - those who answered 'Rarely' were wearing masks 20 percent of the time and 
 - those who answered 'Never' were wearing masks none of the time.
 
-$pWear = 1(ALWAYS=1) + 0.8*1(FREQUENTLY=1) + 0.5*1(SOMETIMES=1) + 0.2*1(RARELY=1) + 0*1(NEVER=1)$
+pWear = 1(ALWAYS=1) + 0.8*1(FREQUENTLY=1) + 0.5*1(SOMETIMES=1) + 0.2*1(RARELY=1) + 0*1(NEVER=1)
 
 R Code __nyt_maskSurvey.R__ generates the map with color-coded $pWear$ values.
