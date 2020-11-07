@@ -18,9 +18,17 @@ glimpse(dt) # nrow = 3142
 dt <- dt %>% mutate(pWear = 1*ALWAYS + 0.8*FREQUENTLY + 0.5*SOMETIMES 
                     + 0.2*RARELY + 0*NEVER)
 
-## get the spatial data (with "shifted" geo) for county
-data("county_laea", package = "tidycensus")
-cnty_dt = county_laea %>% mutate(COUNTYFP = as.numeric(GEOID))
+# get total population of the counties (with geometry info) ===================
+cnty_dt = get_acs("county", variables = "B00001_001", year = 2018,
+                   output = "tidy", geometry = TRUE, shift_geo = TRUE) %>%
+  rename('pop' = estimate) %>%
+  mutate(COUNTYFP = as.numeric(GEOID)) %>%
+  select(-variable)
+
+## or get the spatial data (with "shifted" geo) for county or state 
+# data("county_laea", package = "tidycensus")
+# data("state_laea", package = "tidycensus")
+# cnty_dt = county_laea %>% mutate(COUNTYFP = as.numeric(GEOID))
 
 
 # merge with dt by FIPS =======================================================
