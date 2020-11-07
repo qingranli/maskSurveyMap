@@ -67,34 +67,3 @@ pMAP2
 png("Map_NYT_maskSurvey.png", res = 200, width = 11, height = 5, units = "in")
 pMAP2
 dev.off()
-
-
-
-###############################################################################
-# Plot and View in interactive mode (set shift_geo = F) =======================
-cnty_dt = get_acs("county", variables = "B00001_001", year = 2018,
-                  output = "tidy", geometry = TRUE, shift_geo = FALSE) %>%
-  rename('pop' = estimate) %>%
-  mutate(COUNTYFP = as.numeric(GEOID)) %>%
-  select(-variable)
-
-shp_plot <- cnty_dt %>% left_join(dt, by = 'COUNTYFP') %>%
-  arrange(GEOID) %>% 
-  mutate(STFIPS = str_sub(GEOID,1,2))
-
-pMAP3 <- tm_shape(shp_plot) + 
-  tm_polygons(col = "pWear", id = "NAME",
-              palette = "GnBu", 
-              border.col = "white", border.alpha = 0.5,
-              title = "probability") + 
-  tm_layout(main.title = "Probability that a random encounter wears mask",
-            main.title.position = "center",
-            main.title.size = 1.4,
-            main.title.fontface = "bold"
-            )
-
-tmap_mode("view") # tmap_mode("plot")
-pMAP3
-
-# save interactive map ========================================================
-tmap_save(pMAP3, "Map_NYT_maskSurvey.html")
